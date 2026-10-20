@@ -23,32 +23,69 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter:[['html'],
+             ['dot'],
+             ['line'],
+             ['list'],
+             ['allure-playwright',{outputfolder:'allure-results'}]
+],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
+    screenshot:'on',
+    video:'on',
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name:'chrome',
+       use:
+    {
+      browserName: 'chromium',
+      headless:false,
+      screenshot:'on',
+     trace:'on',
+     video:'on',
+   //  viewport:{width:1080,height:720},
+   // ...devices['Desktop Chrome'],
+   ...devices['Galaxy Note 3 landscape'],
+   // ...devices['Galaxy S III landscape'],
+    ignoreHTTPSErrors:true,
+   permissions:['geolocation']
+     
+
+    },
+    },
+   
+
+  {
+      name:'firefox',
+       use:
+    {
+      browserName: 'firefox',
+      headless:true,
+      screenshot:'only-on-failure',
+     trace:'retain-on-failure',
+     video:'retain-on-failure'
+    },
     },
 
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
+      name:'safari',
+       use:
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      browserName: 'webkit',
+      headless:true,
+      screenshot:'only-on-failure',
+     trace:'retain-on-failure',
+     video:'retain-on-failure'
     },
+  }
 
     /* Test against mobile viewports. */
     // {
@@ -78,4 +115,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-
