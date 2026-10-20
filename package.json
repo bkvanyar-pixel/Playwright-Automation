@@ -1,15 +1,18 @@
 {
-  "name": "project",
+  "name": "atptwds-0900-pm-27-julyproject",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "smoke": "npx playwright test --grep @smoke --project=chrome",
+    "sanity": "npx playwright test --grep @sanity --project=chrome"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "description": "",
   "devDependencies": {
     "@playwright/test": "^1.63.0",
-    "@types/node": "^26.6.4"
+    "@types/node": "^26.6.4",
+    "allure-playwright": "^3.14.0"
   }
 }
